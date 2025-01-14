@@ -79,14 +79,5 @@ El projecte és força obert i haurà d'incloure els conceptes d'**herència, ab
   2. **`SectorGalactic`:** Per gestionar el tauler i les regles del joc.
   3. **`Nau`:** Una classe abstracta base de la qual heretaran les diferents naus (Mare Comandant, Fragata, etc.).
 
----
-
-## **Diferències principals amb el segon projecte:**
-
-1. **Moviments del Caçabombarder:** Ara es menciona explícitament que pot saltar per sobre d'altres naus.
-2. **Format de les coordenades:** Es reforça que els jugadors han d'utilitzar el format de lletres (a-h) per a les columnes i nombres (1-8) per a les files.
-3. **Tauler inicial:** Es mostra el tauler inicial amb una disposició clara i simètrica per a les dues flotes.
-4. **Exploradores:** Es remarca que no poden atacar.
-
 Sort i que guanyi el millor! 🚀
 
