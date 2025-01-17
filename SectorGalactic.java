@@ -42,9 +42,9 @@ public class SectorGalactic {
 		// Comprovo que la casella de desti no estigui plena per una nau aliada
 		Nau nauDesti = tauler[movimentDestiX][movimentDestiY];
 		
-		if (nauDesti != null && nauDesti.getBandol().equals(nau.getBandol())) {
-			return false; // perque la nau esta ocupada per una nau aliada	
-		}
+//		if (nauDesti != null && nauDesti.getBandol().equals(nau.getBandol())) {
+//			return false; // perque la nau esta ocupada per una nau aliada	
+//		}
 
 		return true;
 	}
@@ -72,7 +72,7 @@ public class SectorGalactic {
 		for (int fil = 0; fil < 8; fil++) {
 			for (int col = 0; col < 8; col++) {
 				if (tauler[fil][col] != null) {
-					System.out.print(tauler[fil][col].getTipus() + " ");
+//					System.out.print(tauler[fil][col].getTipus() + " ");
 
 				}
 			}

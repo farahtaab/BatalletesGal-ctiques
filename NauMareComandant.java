@@ -1,29 +1,31 @@
-import java.util.ArrayList;
-import java.util.List;
-
 class NauMareComandant extends Nau {
-	public NauMareComandant(int fil, int col, String bandol) {
-		super(fil, col, 'M', bandol);
-	}
+    public NauMareComandant(int fil, int col, String bandol) {
+        super(fil, col, 'M', bandol);
+    }
 
-	@Override
-	public List<int[]> movimentsPossibles() {
-		List<int[]> moviments = new ArrayList<>();
-		// Mou en diagonal qualsevol nombre de caselles
-		for (int i = 1; i < 8; i++) {
-			if (fil + i < 8 && col + i < 8) {
-				moviments.add(new int[] { fil + i, col + i });
-			}
-			if (fil + i < 8 && col - i >= 0) {
-				moviments.add(new int[] { fil + i, col - i });
-			}
-			if (fil - i >= 0 && col + i < 8) {
-				moviments.add(new int[] { fil - i, col + i });
-			}
-			if (fil - i >= 0 && col - i >= 0) {
-				moviments.add(new int[] { fil - i, col - i });
-			}
-		}
-		return moviments;
-	}
+    @Override
+    /**
+     * Es mou una casella en qualsevol direcció.
+     * Pot atacar si la casella de destí està ocupada per un enemic.
+     */
+    public boolean esMovimentValid(int filOrigen, int colOrigen, int filDesti, int colDesti, char[][] matriu) {
+        // Comprovar que el moviment és dins d'una casella
+        if (Math.abs(filOrigen - filDesti) <= 1 && Math.abs(colOrigen - colDesti) <= 1) {
+            // Comprovar que la casella està dins del tauler
+            if (!estaDins(filDesti, colDesti)) {
+                return false; // Destí fora del tauler
+            }
+
+            // Si la casella està ocupada
+            if (posicioOcupada(filDesti, colDesti, matriu)) {
+                return potAtacar(filDesti, colDesti, matriu); // Només es pot moure si pot atacar
+            }
+
+            // Si la casella no està ocupada, el moviment és vàlid
+            return true;
+        }
+
+        // Si no és una casella, no és un moviment vàlid
+        return false;
+    }
 }
