@@ -5,32 +5,45 @@ class Fragata extends Nau {
 
     @Override
     /**
-     * Fragates (F): Mouen fins a 2 caselles en línia recta i poden atacar naus
-     * a una distància màxima de 2 caselles.
+     * Fragates (F): Es poden moure fins a 2 caselles en línia recta
+     * i poden atacar naus enemigues a una distància màxima de 2 caselles.
      */
     public boolean esMovimentValid(int filOrigen, int colOrigen, int filDesti, int colDesti, char[][] matriu) {
-        // Moviment horitzontal
+        // Comprovar moviment horitzontal
         if (filOrigen == filDesti) {
             int distancia = Math.abs(colDesti - colOrigen);
 
-            if (distancia == 1) { // Mou 1 casella
-                return !posicioOcupada(filDesti, colDesti, matriu) || potAtacar(filDesti, colDesti, matriu);
-            } else if (distancia == 2) { // Mou 2 caselles
-                int intermCol = (colOrigen + colDesti) / 2; // Casella intermèdia
-                return !posicioOcupada(filOrigen, intermCol, matriu) &&
-                       (!posicioOcupada(filOrigen, colDesti, matriu) || potAtacar(filOrigen, colDesti, matriu));
+            // Moviment a 1 casella horitzontal
+            if (distancia == 1) {
+                return esPotMoure(filDesti, colDesti, matriu);
             }
 
-        // Moviment vertical
-        } else if (colOrigen == colDesti) {
+            // Moviment a 2 caselles horitzontal
+            if (distancia == 2) {
+                int intermCol = (colOrigen + colDesti) / 2; // Casella intermèdia
+                if (!esPotMoure(filOrigen, intermCol, matriu)) {
+                    return false; // La casella intermèdia no és vàlida
+                }
+                return esPotMoure(filDesti, colDesti, matriu); // Verificar destí
+            }
+        }
+
+        // Comprovar moviment vertical
+        if (colOrigen == colDesti) {
             int distancia = Math.abs(filDesti - filOrigen);
 
-            if (distancia == 1) { // Mou 1 casella
-                return !posicioOcupada(filDesti, colDesti, matriu) || potAtacar(filDesti, colDesti, matriu);
-            } else if (distancia == 2) { // Mou 2 caselles
+            // Moviment a 1 casella vertical
+            if (distancia == 1) {
+                return esPotMoure(filDesti, colDesti, matriu);
+            }
+
+            // Moviment a 2 caselles vertical
+            if (distancia == 2) {
                 int intermFil = (filOrigen + filDesti) / 2; // Casella intermèdia
-                return !posicioOcupada(intermFil, colOrigen, matriu) &&
-                       (!posicioOcupada(filDesti, colOrigen, matriu) || potAtacar(filDesti, colOrigen, matriu));
+                if (!esPotMoure(intermFil, colOrigen, matriu)) {
+                    return false; // La casella intermèdia no és vàlida
+                }
+                return esPotMoure(filDesti, colDesti, matriu); // Verificar destí
             }
         }
 

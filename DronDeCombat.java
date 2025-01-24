@@ -14,12 +14,14 @@ class DronCombat extends Nau {
 
         // Moviment endavant (una casella cap endavant)
         if (colOrigen == colDesti && filDesti == filOrigen + direccio) {
-            return !posicioOcupada(filDesti, colDesti, matriu); // Només pot moure's si la casella està buida
+            // Comprovar que es pot moure (només si està buida)
+            return esPotMoure(filDesti, colDesti, matriu) && !estemAtacant(filDesti, colDesti, matriu);
         }
 
         // Atac diagonal cap endavant (una casella)
         if (Math.abs(colDesti - colOrigen) == 1 && filDesti == filOrigen + direccio) {
-            return potAtacar(filDesti, colDesti, matriu); // Reutilitza la lògica general d'atac
+            // Comprovar si es pot atacar (només si hi ha un enemic)
+            return estemAtacant(filDesti, colDesti, matriu);
         }
 
         // Si no compleix cap condició, el moviment no és vàlid

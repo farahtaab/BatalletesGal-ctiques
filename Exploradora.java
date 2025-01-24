@@ -10,34 +10,26 @@ class Exploradora extends Nau {
     public boolean esMovimentValid(int filOrigen, int colOrigen, int filDesti, int colDesti, char[][] matriu) {
         // Comprovar que el moviment és diagonal
         if (Math.abs(filDesti - filOrigen) == Math.abs(colDesti - colOrigen)) {
-            // Comprovar que totes les caselles intermitges estan lliures
-            int dFil = (filDesti > filOrigen) ? 1 : -1; // Direcció files
-            int dCol = (colDesti > colOrigen) ? 1 : -1; // Direcció columnes
+            int dFil = (filDesti > filOrigen) ? 1 : -1; // Direcció de moviment en files
+            int dCol = (colDesti > colOrigen) ? 1 : -1; // Direcció de moviment en columnes
 
             int filActual = filOrigen + dFil;
             int colActual = colOrigen + dCol;
 
+            // Comprovar caselles intermitges
             while (filActual != filDesti && colActual != colDesti) {
-                if (posicioOcupada(filActual, colActual, matriu)) {
+                if (matriu[filActual][colActual] != '.') {
                     return false; // Una casella intermitja està ocupada
                 }
                 filActual += dFil;
                 colActual += dCol;
             }
 
-            // Comprovar que la casella de destí està dins i lliure (no poden atacar)
-            return estaDins(filDesti, colDesti) && !posicioOcupada(filDesti, colDesti, matriu);
+            // Comprovar que la casella de destí està buida
+            return estaDins(filDesti, colDesti) && matriu[filDesti][colDesti] == '.';
         }
 
-        // No és un moviment diagonal
+        // Si no és un moviment diagonal, no és vàlid
         return false;
-    }
-
-    @Override
-    /**
-     * Exploradores no poden atacar.
-     */
-    public boolean potAtacar(int filDesti, int colDesti, char[][] matriu) {
-        return false; // Les exploradores mai poden atacar
     }
 }

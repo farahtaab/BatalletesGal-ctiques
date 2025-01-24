@@ -15,36 +15,49 @@ abstract class Nau {
         return tipus;
     }
 
+    /**
+     * Comprova si una posició està dins del tauler.
+     */
     public boolean estaDins(int fila, int columna) {
         return fila >= 0 && fila < 8 && columna >= 0 && columna < 8;
     }
 
-    public boolean posicioOcupada(int fila, int columna, char[][] matriu) {
-        return matriu[fila][columna] != '.'; // Casella no buida
-    }
-
-    public boolean potAtacar(int fila, int columna, char[][] matriu) {
-        // Comprovar si la casella està dins del tauler
+    /**
+     * Comprova si es pot moure a una posició:
+     * - Dins del tauler.
+     * - Casella buida o enemiga.
+     * - No permet moure's a una casella del mateix bàndol.
+     */
+    public boolean esPotMoure(int fila, int columna, char[][] matriu) {
         if (!estaDins(fila, columna)) {
-            return true; // Casella fora del tauler, no es pot atacar
+            return false; // Fora del tauler
         }
 
         char nauDest = matriu[fila][columna];
 
-        // Comprovar si la casella està buida
         if (nauDest == '.') {
-            return true; // Casella buida, no hi ha res a atacar
+            return true; // Casella buida
         }
 
-        // Comprovar si és una peça del mateix bàndol
-        boolean esMateixBandol = Character.isUpperCase(tipus) == Character.isUpperCase(nauDest);
-        if (esMateixBandol) {
-            return true; // No es pot atacar una peça del mateix bàndol
-        }
-
-        // Si no és del mateix bàndol i no està buida, es pot atacar
-        return false;
+        // Comprovar si és enemiga
+        boolean esEnemic = Character.isUpperCase(tipus) != Character.isUpperCase(nauDest);
+        return esEnemic; // Es pot moure només si és enemic
     }
 
+    /**
+     * Comprova si el moviment implica atacar un enemic.
+     */
+    public boolean estemAtacant(int fila, int columna, char[][] matriu) {
+        if (!estaDins(fila, columna)) {
+            return false; // Fora del tauler
+        }
+
+        char nauDest = matriu[fila][columna];
+        return nauDest != '.' && Character.isUpperCase(tipus) != Character.isUpperCase(nauDest);
+    }
+
+    /**
+     * Cada nau implementa la seva pròpia lògica de moviment.
+     */
     public abstract boolean esMovimentValid(int filOrigen, int colOrigen, int filDesti, int colDesti, char[][] matriu);
 }
